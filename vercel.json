@@ -1,5 +1,9 @@
 {
-    "scripts": {
-      "build": "[flask] build --output public"
-    }
-  }
+    "version": 2,
+    "builds": [
+        {"src": "prediksi.py", "use": "@vercel/python"}
+    ],
+    "routes": [
+        {"src": "/(.*)", "dest": "prediksi.py"}
+    ]
+}
