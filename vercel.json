@@ -1,9 +1,5 @@
 {
-    "version": 2,
-    "builds": [
-        {"src": "prediksi.py", "use": "@vercel/python"}
-    ],
-    "routes": [
-        {"src": "/(.*)", "dest": "prediksi.py"}
+    "rewrites": [
+      { "source": "/(.*)", "destination": "/" }
     ]
-}
+  }
