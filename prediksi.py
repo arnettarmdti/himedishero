@@ -1,29 +1,30 @@
 from flask import Flask, request, jsonify
 import xgboost as xgb
 import numpy as np
-import streamlit as st
 import joblib
 import firebase_admin
 from firebase_admin import credentials, db
+import os
 
 # Inisialisasi aplikasi Flask
 app = Flask(__name__)
 
 # Memuat model XGBoost yang sudah dilatih
-model = joblib.load('Flask Server/xgboost_model3.pkl')
+model_path = os.path.join(os.path.dirname(__file__), 'xgboost_model3.pkl')
+model = joblib.load(model_path)
 
 # Mengonfigurasi Firebase
 firebase_creds = {
-    "type": st.secrets["firebase"]["type"],
-    "project_id": st.secrets["firebase"]["project_id"],
-    "private_key_id": st.secrets["firebase"]["private_key_id"],
-    "private_key": st.secrets["firebase"]["private_key"].replace('\\n', '\n'),
-    "client_email": st.secrets["firebase"]["client_email"],
-    "client_id": st.secrets["firebase"]["client_id"],
-    "auth_uri": st.secrets["firebase"]["auth_uri"],
-    "token_uri": st.secrets["firebase"]["token_uri"],
-    "auth_provider_x509_cert_url": st.secrets["firebase"]["auth_provider_x509_cert_url"],
-    "client_x509_cert_url": st.secrets["firebase"]["client_x509_cert_url"]
+    "type": os.getenv("FIREBASE_TYPE"),
+    "project_id": os.getenv("FIREBASE_PROJECT_ID"),
+    "private_key_id": os.getenv("FIREBASE_PRIVATE_KEY_ID"),
+    "private_key": os.getenv("FIREBASE_PRIVATE_KEY").replace('\\n', '\n'),
+    "client_email": os.getenv("FIREBASE_CLIENT_EMAIL"),
+    "client_id": os.getenv("FIREBASE_CLIENT_ID"),
+    "auth_uri": os.getenv("FIREBASE_AUTH_URI"),
+    "token_uri": os.getenv("FIREBASE_TOKEN_URI"),
+    "auth_provider_x509_cert_url": os.getenv("FIREBASE_AUTH_PROVIDER_X509_CERT_URL"),
+    "client_x509_cert_url": os.getenv("FIREBASE_CLIENT_X509_CERT_URL")
 }
 
 cred = credentials.Certificate(firebase_creds)
